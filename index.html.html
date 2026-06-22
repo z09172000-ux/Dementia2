@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>失智社區服務據點實地查核表</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#f5f5f4;
+  --color-background-tertiary:#eeede9;
+  --color-text-primary:#1a1a19;
+  --color-text-secondary:#6b6b68;
+  --color-border-tertiary:rgba(0,0,0,0.12);
+  --color-border-secondary:rgba(0,0,0,0.22);
+  --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+  --border-radius-md:8px;
+  --border-radius-lg:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-background-primary:#1e1e1c;
+    --color-background-secondary:#2a2a28;
+    --color-background-tertiary:#313130;
+    --color-text-primary:#f0efe9;
+    --color-text-secondary:#9b9b97;
+    --color-border-tertiary:rgba(255,255,255,0.12);
+    --color-border-secondary:rgba(255,255,255,0.22);
+  }
+}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);min-height:100vh;display:flex;justify-content:center;padding:1rem 0}
+.app{width:100%;max-width:480px;background:var(--color-background-primary);min-height:100vh}
+.site-bar{padding:0.75rem 1rem;background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.site-label{font-size:12px;color:var(--color-text-secondary);white-space:nowrap}
+.site-select{flex:1;min-width:0;font-size:14px;font-weight:500;padding:7px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-family:var(--font-sans)}
+.site-indicator{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.header{padding:0.75rem 1rem 0.75rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.header h1{font-size:15px;font-weight:500;color:var(--color-text-primary);line-height:1.4}
+.header p{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.progress-bar-wrap{background:var(--color-background-secondary);border-radius:4px;height:5px;margin-top:8px}
+.progress-bar{height:5px;border-radius:4px;transition:width 0.3s;background:#1D9E75}
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-top:4px;flex-wrap:wrap;gap:4px}
+.progress-label{font-size:11px;color:var(--color-text-secondary)}
+.progress-stats{display:flex;gap:6px}
+.stat-pill{font-size:11px;padding:1px 7px;border-radius:20px}
+.stat-ok{background:#E1F5EE;color:#0F6E56}
+.stat-ng{background:#FCEBEB;color:#A32D2D}
+.stat-fol{background:#FAEEDA;color:#854F0B}
+.legend{display:flex;gap:10px;padding:0.5rem 1rem;flex-wrap:wrap;border-bottom:0.5px solid var(--color-border-tertiary)}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--color-text-secondary)}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+.sections{padding:0.75rem 1rem}
+.section{margin-bottom:0.5rem;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;background:var(--color-background-primary)}
+.section-header{padding:0.7rem 1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:var(--color-background-secondary);-webkit-tap-highlight-color:transparent;user-select:none}
+.section-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.section-badge{font-size:11px;background:#E1F5EE;color:#0F6E56;border-radius:20px;padding:2px 8px;white-space:nowrap;flex-shrink:0;margin-left:8px}
+.section-body{display:none;border-top:0.5px solid var(--color-border-tertiary)}
+.section-body.open{display:block}
+.subsection{padding:0.7rem 0.9rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.subsection:last-child{border-bottom:none}
+.sub-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px}
+.indicator{padding:0.65rem;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:7px;background:var(--color-background-primary)}
+.indicator:last-child{margin-bottom:0}
+.indicator-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px;line-height:1.4}
+.indicator-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:7px;padding-left:0.9rem}
+.indicator-desc li{margin-bottom:1px}
+.result-row{display:flex;gap:5px;flex-wrap:wrap}
+.result-btn{font-size:12px;padding:5px 9px;border-radius:20px;border:0.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all 0.15s;-webkit-tap-highlight-color:transparent;font-family:var(--font-sans)}
+.result-btn.active-ok{background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5;font-weight:500}
+.result-btn.active-ng{background:#FCEBEB;color:#A32D2D;border-color:#F09595;font-weight:500}
+.result-btn.active-fol{background:#FAEEDA;color:#854F0B;border-color:#EF9F27;font-weight:500}
+.note-input{width:100%;margin-top:5px;font-size:12px;padding:5px 7px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);resize:none;display:none;font-family:var(--font-sans)}
+.note-input.show{display:block}
+.actions{padding:0 1rem 1.5rem;display:flex;gap:8px}
+.action-btn{flex:1;padding:9px 8px;font-size:13px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);cursor:pointer;font-family:var(--font-sans);-webkit-tap-highlight-color:transparent}
+.action-btn.primary{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.empty-state{padding:3rem 1rem;text-align:center;color:var(--color-text-secondary);font-size:13px}
+.empty-state i{font-size:36px;display:block;margin-bottom:10px;opacity:0.35}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2C2C2A;color:#fff;font-size:13px;padding:8px 18px;border-radius:20px;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:99;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="site-bar">
+    <span class="site-label">查核據點</span>
+    <div class="site-indicator" id="site-dot" style="background:transparent"></div>
+    <select class="site-select" id="site-select" onchange="switchSite(this.value)">
+      <option value="">— 請選擇據點 —</option>
+      <option value="澎南據點">澎南據點</option>
+      <option value="湖西據點">湖西據點</option>
+      <option value="馬公據點">馬公據點</option>
+      <option value="權責據點">權責據點</option>
+      <option value="白沙據點">白沙據點</option>
+      <option value="西嶼據點">西嶼據點</option>
+      <option value="七美據點">七美據點</option>
+      <option value="望安據點">望安據點</option>
+    </select>
+  </div>
+
+  <div id="main-content" style="display:none">
+    <div class="header">
+      <h1>失智社區服務據點實地查核表</h1>
+      <p id="site-name-label"></p>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="prog" style="width:0%"></div></div>
+      <div class="progress-row">
+        <span class="progress-label" id="prog-label">已填寫 0 / 21 項</span>
+        <div class="progress-stats">
+          <span class="stat-pill stat-ok" id="s-ok">符合 0</span>
+          <span class="stat-pill stat-ng" id="s-ng">不符合 0</span>
+          <span class="stat-pill stat-fol" id="s-fol">需追蹤 0</span>
+        </div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>符合</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#A32D2D"></div>不符合</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#854F0B"></div>需追蹤</div>
+    </div>
+    <div class="sections" id="sections"></div>
+    <div class="actions">
+      <button class="action-btn" onclick="clearSite()">清除此據點</button>
+      <button class="action-btn" onclick="exportResult()">匯出 TXT</button>
+      <button class="action-btn primary" onclick="exportMarkdown()">匯出 Markdown</button>
+    </div>
+    <div class="actions" style="padding-top:0;flex-direction:column;gap:6px">
+      <button class="action-btn" style="flex:none;width:100%" onclick="exportAllMarkdown()">整批匯出全部據點（Markdown）</button>
+      <button class="action-btn" style="flex:none;width:100%" onclick="exportAllTxt()">整批匯出全部據點（TXT）</button>
+    </div>
+  </div>
+
+  <div id="empty-state" class="empty-state">
+    <i class="ti ti-building-community" aria-hidden="true"></i>
+    請選擇上方據點以開始查核
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SCHEMA=[
+  {cat:"一、基礎管理面",subs:[
+    {label:"（一）服務資訊",items:[
+      {id:"A1",title:"失智社區服務據點基本資料完整登錄",desc:["名稱","地址","聯絡電話","地方政府核定日","服務縣市","負責人基本資料"]}
+    ]},
+    {label:"（二）空間與環境",items:[
+      {id:"B1",title:"整體空間具有活動辨識物品安全性、顏色性及足夠照明",desc:["現場實地查核評估"]},
+      {id:"B2",title:"進出動線方便，提供行動不便者所需環境或設施",desc:[]},
+      {id:"B3",title:"廁所入動線避免絆倒並具簡易無障礙設施（如扶手、防滑、門檻等）",desc:[]},
+      {id:"B4",title:"廚房或個案活動區域存放物品之安適性",desc:["廚房與個案活動區應隔間","設備、器具使用完畢應清洗消毒","食品及清潔劑正確存放並標示"]},
+      {id:"B5",title:"採取必要之感染管控措施，避免發生交叉感染",desc:["訂有環境清潔細部計畫","環境定期消毒","人員自主健康監測措施","備有酒精、洗手液"]}
+    ]},
+    {label:"（三）服務人員管理",items:[
+      {id:"C1",title:"是否配置專業人員",desc:["醫事人員相關科系畢業","社會工作師應考資格","高中（職）護理及老人照顧相關科系","領有照顧服務員訓練結業證明書或丙級技術士證","預防及延緩失能照護方案師資或指導員"]},
+      {id:"C2",title:"專業人員是否於期限內完成繼續教育",desc:["到職6個月內完成失智症照顧服務20小時訓練課程"]}
+    ]},
+    {label:"（四）行政配合作業",items:[
+      {id:"D1",title:"個案應簽切結書同意配合實名制相關措施",desc:["個案抽查數＝個案數×10%","佐證：個案基本資料、切結書、出席記錄"]},
+      {id:"D2",title:"失智症相關認識文件留存據點備查",desc:["個案抽查數＝個案數×10%","出具病歷摘錄或診斷說明書"]},
+      {id:"D3",title:"於「失智照護服務管理系統」登錄個案服務資料",desc:["個案抽查數＝個案數×10%","是否於3個月內完成登打"]},
+      {id:"D4",title:"出席轄區聯繫會議與服務整合活動並進行成果分享報告",desc:["佐證：出席紀錄、成果報告、會議照片"]},
+      {id:"D5",title:"滿意度調查表及建議事項處理機制",desc:["佐證：滿意度調查資料","服務規劃與檢討（活動類型、頻率之規劃）"]}
+    ]}
+  ]},
+  {cat:"二、服務執行面",subs:[
+    {label:"（一）服務內容",items:[
+      {id:"E1",title:"服務對象符合規範",desc:["個案抽查數＝個案數×10%","確認為確診失智症且符合計畫規定之收案對象"]},
+      {id:"E2",title:"服務項目規範",desc:["提供認知促進、緩和失智課程","提供照顧者支持團體或照顧訓練課程"]},
+      {id:"E3",title:"訂有轉介機制",desc:["訂定失智同照護中心與據點相互轉介","CDR2分以上個案協助轉介至長照機構"]},
+      {id:"E4",title:"共餐活動注意食品安全衛生管理",desc:["符合食品安全衛生管理法及GHP規範"]},
+      {id:"E5",title:"共餐活動提供高齡友善健康餐食",desc:["符合社區營養推廣中心建議","佐證：菜單、餐飲照片、實地訪問個案"]}
+    ]},
+    {label:"（二）開課內涵",items:[
+      {id:"F1",title:"開課規範",desc:["每週開設服務合計達2全日或1半日","有固定服務時間","必須辦理認知促進或照顧者課程"]},
+      {id:"F2",title:"模組供同申請預防及延緩失智照護方案",desc:["六大面向中含認知促進模組","最多申請3期為限"]},
+      {id:"F3",title:"課程品質—講師由具失智症照顧經驗者擔任",desc:["提供講師個人相關經歷及專業證明文件"]},
+      {id:"F4",title:"課程品質—課程設計合適性",desc:["提供課程表、教案、課後評值表等"]}
+    ]}
+  ]}
+];
+
+const ALL_SITES=["澎南據點","湖西據點","馬公據點","權責據點","白沙據點","西嶼據點","七美據點","望安據點"];
+
+const SITE_COLORS={
+  "澎南據點":"#1D9E75","湖西據點":"#185FA5","馬公據點":"#993556",
+  "權責據點":"#854F0B","白沙據點":"#3B6D11","西嶼據點":"#534AB7",
+  "七美據點":"#993C1D","望安據點":"#5F5E5A"
+};
+
+const STORE_KEY='dementia_checklist_v1';
+let store={};
+let currentSite='';
+
+function loadStore(){
+  try{
+    const raw=localStorage.getItem(STORE_KEY);
+    if(raw) store=JSON.parse(raw);
+  }catch(e){store={};}
+}
+
+function saveStore(){
+  try{
+    localStorage.setItem(STORE_KEY,JSON.stringify(store));
+  }catch(e){}
+}
+
+function getSiteData(site){
+  if(!store[site]) store[site]={results:{},notes:{}};
+  return store[site];
+}
+
+function switchSite(site){
+  currentSite=site;
+  if(!site){
+    document.getElementById('main-content').style.display='none';
+    document.getElementById('empty-state').style.display='block';
+    document.getElementById('site-dot').style.background='transparent';
+    return;
+  }
+  document.getElementById('empty-state').style.display='none';
+  document.getElementById('main-content').style.display='block';
+  document.getElementById('site-name-label').textContent='查核據點：'+site;
+  document.getElementById('site-dot').style.background=SITE_COLORS[site]||'#888';
+  renderSections();
+}
+
+function renderSections(){
+  const {results,notes}=getSiteData(currentSite);
+  const cont=document.getElementById('sections');
+  cont.innerHTML='';
+  SCHEMA.forEach(sec=>{
+    const totalInSec=sec.subs.reduce((a,s)=>a+s.items.length,0);
+    const doneInSec=sec.subs.reduce((a,s)=>a+s.items.filter(i=>results[i.id]).length,0);
+    const sDiv=document.createElement('div');
+    sDiv.className='section';
+    const hdr=document.createElement('div');
+    hdr.className='section-header';
+    hdr.innerHTML=`<span class="section-title">${sec.cat}</span><span class="section-badge">${doneInSec}/${totalInSec}</span>`;
+    const body=document.createElement('div');
+    body.className='section-body open';
+    hdr.onclick=()=>body.classList.toggle('open');
+    sec.subs.forEach(sub=>{
+      const ssDiv=document.createElement('div');
+      ssDiv.className='subsection';
+      ssDiv.innerHTML=`<div class="sub-label">${sub.label}</div>`;
+      sub.items.forEach(ind=>{
+        const r=results[ind.id]||'';
+        const descHtml=ind.desc.length?`<ul class="indicator-desc">${ind.desc.map(d=>`<li>${d}</li>`).join('')}</ul>`:'';
+        const iDiv=document.createElement('div');
+        iDiv.className='indicator';
+        iDiv.innerHTML=`
+          <div class="indicator-title">${ind.title}</div>
+          ${descHtml}
+          <div class="result-row">
+            <button class="result-btn ${r==='ok'?'active-ok':''}" onclick="setResult('${ind.id}','ok',this)">✓ 符合</button>
+            <button class="result-btn ${r==='ng'?'active-ng':''}" onclick="setResult('${ind.id}','ng',this)">✗ 不符合</button>
+            <button class="result-btn ${r==='fol'?'active-fol':''}" onclick="setResult('${ind.id}','fol',this)">⚑ 需追蹤</button>
+          </div>
+          <textarea class="note-input ${(r==='ng'||r==='fol')?'show':''}" id="note-${ind.id}" placeholder="請說明…" rows="2" oninput="saveNote('${ind.id}',this.value)">${notes[ind.id]||''}</textarea>`;
+        ssDiv.appendChild(iDiv);
+      });
+      body.appendChild(ssDiv);
+    });
+    sDiv.appendChild(hdr);
+    sDiv.appendChild(body);
+    cont.appendChild(sDiv);
+  });
+  updateProgress();
+}
+
+function setResult(id,val,btn){
+  if(!currentSite) return;
+  const d=getSiteData(currentSite);
+  d.results[id]=val;
+  saveStore();
+  const ind=btn.closest('.indicator');
+  ind.querySelectorAll('.result-btn').forEach(b=>{b.className='result-btn'});
+  if(val==='ok') btn.classList.add('active-ok');
+  else if(val==='ng') btn.classList.add('active-ng');
+  else btn.classList.add('active-fol');
+  const note=ind.querySelector('.note-input');
+  if(val==='ng'||val==='fol') note.classList.add('show');
+  else note.classList.remove('show');
+  updateProgress();
+  updateSectionBadge(btn);
+}
+
+function saveNote(id,val){
+  if(!currentSite) return;
+  getSiteData(currentSite).notes[id]=val;
+  saveStore();
+}
+
+function updateSectionBadge(el){
+  const sec=el.closest('.section');
+  if(!sec) return;
+  const all=[...sec.querySelectorAll('.indicator')];
+  const done=all.filter(i=>i.querySelector('.result-btn.active-ok,.result-btn.active-ng,.result-btn.active-fol')).length;
+  const badge=sec.querySelector('.section-badge');
+  if(badge) badge.textContent=`${done}/${all.length}`;
+}
+
+function updateProgress(){
+  const all=SCHEMA.flatMap(s=>s.subs.flatMap(ss=>ss.items));
+  const {results}=getSiteData(currentSite);
+  const done=all.filter(i=>results[i.id]).length;
+  const ok=all.filter(i=>results[i.id]==='ok').length;
+  const ng=all.filter(i=>results[i.id]==='ng').length;
+  const fol=all.filter(i=>results[i.id]==='fol').length;
+  const pct=all.length?Math.round(done/all.length*100):0;
+  document.getElementById('prog').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=`已填寫 ${done} / ${all.length} 項`;
+  document.getElementById('s-ok').textContent=`符合 ${ok}`;
+  document.getElementById('s-ng').textContent=`不符合 ${ng}`;
+  document.getElementById('s-fol').textContent=`需追蹤 ${fol}`;
+}
+
+function clearSite(){
+  if(!currentSite) return;
+  if(!confirm(`確定要清除「${currentSite}」的所有查核資料？`)) return;
+  store[currentSite]={results:{},notes:{}};
+  saveStore();
+  renderSections();
+  showToast('已清除 '+currentSite+' 的查核資料');
+}
+
+const LABEL_MAP={ok:'符合',ng:'不符合',fol:'需追蹤'};
+
+function todayStr(){
+  const now=new Date();
+  return `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`;
+}
+
+function siteHasData(site){
+  const d=store[site];
+  if(!d) return false;
+  return Object.keys(d.results||{}).length>0;
+}
+
+function downloadFile(filename,text,mime){
+  const bom='\uFEFF';
+  const blob=new Blob([bom+text],{type:mime+';charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+}
+
+// ── 單一據點 TXT 內容 ──
+function buildTxt(site){
+  const {results,notes}=getSiteData(site);
+  const dateStr=todayStr();
+  let txt=`澎湖縣失智社區服務據點查核結果\n`;
+  txt+=`查核據點：${site}　　查核日期：${dateStr}\n`;
+  txt+='='.repeat(36)+'\n';
+  SCHEMA.forEach(sec=>{
+    txt+=`\n【${sec.cat}】\n`;
+    sec.subs.forEach(sub=>{
+      txt+=`\n${sub.label}\n`;
+      sub.items.forEach(ind=>{
+        const r=results[ind.id]?LABEL_MAP[results[ind.id]]:'（未填）';
+        txt+=`• ${ind.title}：${r}`;
+        if(notes[ind.id]) txt+=`\n  說明：${notes[ind.id]}`;
+        txt+='\n';
+      });
+    });
+  });
+  const all=SCHEMA.flatMap(s=>s.subs.flatMap(ss=>ss.items));
+  const ok=all.filter(i=>results[i.id]==='ok').length;
+  const ng=all.filter(i=>results[i.id]==='ng').length;
+  const fol=all.filter(i=>results[i.id]==='fol').length;
+  txt+=`\n${'─'.repeat(36)}\n合計：符合 ${ok} 項 ／ 不符合 ${ng} 項 ／ 需追蹤 ${fol} 項\n`;
+  return txt;
+}
+
+// ── 單一據點 Markdown 內容（Evernote / Notion 友善）──
+function buildMarkdown(site){
+  const {results,notes}=getSiteData(site);
+  const dateStr=todayStr();
+  const all=SCHEMA.flatMap(s=>s.subs.flatMap(ss=>ss.items));
+  const ok=all.filter(i=>results[i.id]==='ok').length;
+  const ng=all.filter(i=>results[i.id]==='ng').length;
+  const fol=all.filter(i=>results[i.id]==='fol').length;
+  const filled=all.filter(i=>results[i.id]).length;
+  let md=`# 失智社區服務據點查核結果｜${site}\n\n`;
+  md+=`- **查核據點**：${site}\n`;
+  md+=`- **查核日期**：${dateStr}\n`;
+  md+=`- **填寫進度**：${filled} / ${all.length} 項\n`;
+  md+=`- **合計**：符合 ${ok}　不符合 ${ng}　需追蹤 ${fol}\n\n`;
+  const iconMap={ok:'✅ 符合',ng:'❌ 不符合',fol:'🚩 需追蹤'};
+  SCHEMA.forEach(sec=>{
+    md+=`## ${sec.cat}\n\n`;
+    sec.subs.forEach(sub=>{
+      md+=`### ${sub.label}\n\n`;
+      md+=`| 查核指標 | 結果 | 說明 |\n`;
+      md+=`| --- | --- | --- |\n`;
+      sub.items.forEach(ind=>{
+        const r=results[ind.id]?iconMap[results[ind.id]]:'—';
+        const note=(notes[ind.id]||'').replace(/\n/g,'<br>').replace(/\|/g,'\\|');
+        const title=ind.title.replace(/\|/g,'\\|');
+        md+=`| ${title} | ${r} | ${note} |\n`;
+      });
+      md+=`\n`;
+    });
+  });
+  return md;
+}
+
+function exportResult(){
+  if(!currentSite) return;
+  downloadFile(`查核結果_${currentSite}_${todayStr().replace(/\//g,'')}.txt`,buildTxt(currentSite),'text/plain');
+}
+
+function exportMarkdown(){
+  if(!currentSite) return;
+  downloadFile(`查核結果_${currentSite}_${todayStr().replace(/\//g,'')}.md`,buildMarkdown(currentSite),'text/markdown');
+}
+
+// ── 整批匯出：彙整所有「有填過資料」的據點 ──
+function collectSites(){
+  const sites=ALL_SITES.filter(siteHasData);
+  return sites;
+}
+
+function exportAllMarkdown(){
+  const sites=collectSites();
+  if(sites.length===0){showToast('尚無任何據點填寫資料');return;}
+  const dateStr=todayStr();
+  let md=`# 澎湖縣失智社區服務據點查核總表\n\n`;
+  md+=`> 匯出日期：${dateStr}　｜　含 ${sites.length} 個據點\n\n`;
+  // 總覽表
+  md+=`## 各據點彙總\n\n`;
+  md+=`| 據點 | 已填 | 符合 | 不符合 | 需追蹤 |\n`;
+  md+=`| --- | --- | --- | --- | --- |\n`;
+  const all=SCHEMA.flatMap(s=>s.subs.flatMap(ss=>ss.items));
+  sites.forEach(site=>{
+    const {results}=getSiteData(site);
+    const filled=all.filter(i=>results[i.id]).length;
+    const ok=all.filter(i=>results[i.id]==='ok').length;
+    const ng=all.filter(i=>results[i.id]==='ng').length;
+    const fol=all.filter(i=>results[i.id]==='fol').length;
+    md+=`| ${site} | ${filled}/${all.length} | ${ok} | ${ng} | ${fol} |\n`;
+  });
+  md+=`\n---\n\n`;
+  sites.forEach(site=>{
+    md+=buildMarkdown(site);
+    md+=`\n---\n\n`;
+  });
+  downloadFile(`查核總表_全據點_${dateStr.replace(/\//g,'')}.md`,md,'text/markdown');
+  showToast(`已匯出 ${sites.length} 個據點`);
+}
+
+function exportAllTxt(){
+  const sites=collectSites();
+  if(sites.length===0){showToast('尚無任何據點填寫資料');return;}
+  const dateStr=todayStr();
+  let txt=`澎湖縣失智社區服務據點查核總表\n匯出日期：${dateStr}　｜　含 ${sites.length} 個據點\n`;
+  txt+='#'.repeat(36)+'\n\n';
+  sites.forEach(site=>{
+    txt+=buildTxt(site);
+    txt+='\n'+'#'.repeat(36)+'\n\n';
+  });
+  downloadFile(`查核總表_全據點_${dateStr.replace(/\//g,'')}.txt`,txt,'text/plain');
+  showToast(`已匯出 ${sites.length} 個據點`);
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+loadStore();
+</script>
+</body>
+</html>
